@@ -1,5 +1,5 @@
 import { useState } from "react";
-import WeekdayDateRangePicker from "./components/DatePicker";
+import WeekdayDateRangePicker from "./components/DatePicker/DatePicker";
 import "./index.css";
 
 function App() {
@@ -26,7 +26,10 @@ function App() {
         {selectedDates.end?.toDateString()}
       </div>
       <div className="text-center my-10">
-        Weekend Dates - {selectedDates.weekends.map(date => date.toLocaleDateString()).join(", ")}
+        Weekend Dates -{" "}
+        {selectedDates.weekends
+          .map((date) => date.toLocaleDateString())
+          .join(", ")}
       </div>
     </>
   );

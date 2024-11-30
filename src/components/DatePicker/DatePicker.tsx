@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
+import YearSelector from "./components/YearSelector";
+import MonthSelector from "./components/MonthSelector";
 
 interface PredefinedRangeOption {
   label: string;
@@ -143,50 +145,6 @@ const WeekdayDateRangePicker: React.FC<{
 
   const predefinedRanges = DEFAULT_PREDEFINED_RANGES;
 
-  const renderMonthSelector = () => {
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    return (
-      <div className="grid grid-cols-4 gap-2 p-4 bg-white shadow-lg rounded-lg">
-        {months.map((month, index) => (
-          <button
-            key={month}
-            onClick={() => {
-              setCurrentView((prev) => ({ ...prev, month: index }));
-              setShowMonthSelector(false);
-            }}
-            className="p-2 hover:bg-red-100 rounded transition-colors"
-          >
-            {month}
-          </button>
-        ))}
-      </div>
-    );
-  };
-  const renderYearSelector = () => {
-    const years = Array.from(
-      { length: maxYear - minYear + 1 },
-      (_, i) => minYear + i
-    );
-
-    return (
-      <div className="grid grid-cols-4 gap-2 p-4 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto">
-        {years.map((year) => (
-          <button
-            key={year}
-            onClick={() => {
-              setCurrentView((prev) => ({ ...prev, year }));
-              setShowYearSelector(false);
-            }}
-            className="p-2 hover:bg-red-100 rounded transition-colors"
-          >
-            {year}
-          </button>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div className="bg-white p-6 rounded-xl shadow-2xl space-y-4">
       <div className="flex justify-between items-center">
@@ -235,8 +193,20 @@ const WeekdayDateRangePicker: React.FC<{
         </div>
       </div>
 
-      {showMonthSelector && renderMonthSelector()}
-      {showYearSelector && renderYearSelector()}
+      {showMonthSelector && (
+        <MonthSelector
+          setCurrentView={setCurrentView}
+          setShowMonthSelector={setShowMonthSelector}
+        />
+      )}
+      {showYearSelector && (
+        <YearSelector
+          maxYear={maxYear}
+          minYear={minYear}
+          setCurrentView={setCurrentView}
+          setShowYearSelector={setShowYearSelector}
+        />
+      )}
 
       <div className="grid grid-cols-7 gap-2 text-center">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
