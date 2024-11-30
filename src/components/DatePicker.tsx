@@ -112,7 +112,6 @@ const WeekdayDateRangePicker: React.FC<{
       days.push(null);
     }
 
-    console.log(days, "days");
     return days;
   };
 

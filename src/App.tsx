@@ -14,7 +14,7 @@ function App() {
   });
   return (
     <>
-      <div className="flex items-center justify-center h-full w-full">
+      <div className="flex items-center justify-center h-full w-full pt-28">
         <WeekdayDateRangePicker
           onDateSelect={(start, end, weekends) =>
             setSelectedDates({ start, end, weekends })
@@ -26,7 +26,6 @@ function App() {
         {selectedDates.end?.toDateString()}
       </div>
       <div className="text-center my-10">
-        {" "}
         Weekend Dates - {selectedDates.weekends.map(date => date.toLocaleDateString()).join(", ")}
       </div>
     </>
