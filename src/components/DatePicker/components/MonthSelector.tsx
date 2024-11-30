@@ -7,20 +7,7 @@ const MonthSelector = ({
   setCurrentView,
   setShowMonthSelector,
 }: MonthSelectorProps) => {
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   return (
     <div className="grid grid-cols-4 gap-2 p-4 bg-white shadow-lg rounded-lg">
