@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 import YearSelector from "./components/YearSelector";
 import MonthSelector from "./components/MonthSelector";
+import {
+  generateMonthDays,
+  getWeekendsBetween,
+  isValidDate,
+  isWeekend,
+} from "../../utils/DatePicker";
 
 interface PredefinedRangeOption {
   label: string;
   getDates: () => { startDate: Date; endDate: Date };
 }
-
-const isWeekend = (date: Date): boolean => {
-  const day = date.getDay();
-  return day === 0 || day === 6;
-};
 
 const DEFAULT_PREDEFINED_RANGES: PredefinedRangeOption[] = [
   {
@@ -63,6 +64,7 @@ const WeekdayDateRangePicker: React.FC<{
   const minYear = 2020;
   const maxYear = new Date().getFullYear() + 5;
   const disablePastDates = false;
+  const predefinedRanges = DEFAULT_PREDEFINED_RANGES;
 
   const [currentView, setCurrentView] = useState<{
     month: number;
@@ -83,40 +85,8 @@ const WeekdayDateRangePicker: React.FC<{
   const [showMonthSelector, setShowMonthSelector] = useState(false);
   const [showYearSelector, setShowYearSelector] = useState(false);
 
-  const isWeekend = (date: Date): boolean =>
-    date.getDay() === 0 || date.getDay() === 6;
-
-  const isValidDate = (date: Date): boolean => {
-    if (isWeekend(date)) return false;
-
-    if (disablePastDates && date < new Date()) return false;
-
-    return true;
-  };
-
-  const generateMonthDays = (month: number, year: number): (Date | null)[] => {
-    const days: (Date | null)[] = [];
-    const firstDayOfMonth = new Date(year, month, 1);
-    const lastDayOfMonth = new Date(year, month + 1, 0);
-    const firstDayOfWeek = firstDayOfMonth.getDay();
-
-    for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
-      days.push(new Date(year, month, day));
-    }
-    if (firstDayOfWeek > 0) {
-      days.unshift(...Array(firstDayOfWeek).fill(null));
-    }
-
-    while (days.length < 42) {
-      days.push(null);
-    }
-
-    console.log(days, "days");
-    return days;
-  };
-
   const handleDateSelection = (date: Date) => {
-    if (!isValidDate(date)) return;
+    if (!isValidDate(date, disablePastDates)) return;
 
     const { start, end } = selectedDateRange;
     if (!start || (start && end)) {
@@ -129,21 +99,6 @@ const WeekdayDateRangePicker: React.FC<{
       onDateSelect(newStart, newEnd, weekendDates);
     }
   };
-
-  const getWeekendsBetween = (start: Date, end: Date): Date[] => {
-    const weekends: Date[] = [];
-    const current = new Date(start);
-
-    while (current <= end) {
-      if (isWeekend(current)) {
-        weekends.push(new Date(current));
-      }
-      current.setDate(current.getDate() + 1);
-    }
-    return weekends;
-  };
-
-  const predefinedRanges = DEFAULT_PREDEFINED_RANGES;
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-2xl space-y-4">
@@ -240,11 +195,15 @@ const WeekdayDateRangePicker: React.FC<{
               <button
                 key={date.toISOString()}
                 onClick={() => handleDateSelection(date)}
-                disabled={!isValidDate(date)}
+                disabled={!isValidDate(date, disablePastDates)}
                 className={`
                 p-2 rounded-full transition-all
                 ${!isCurrentMonth ? "text-gray-300" : ""}
-                ${!isValidDate(date) ? "text-gray-300 cursor-not-allowed" : ""}
+                ${
+                  !isValidDate(date, disablePastDates)
+                    ? "text-gray-300 cursor-not-allowed"
+                    : ""
+                }
                 ${isSelected ? "bg-red-600 text-white" : ""}
                 ${isInRange ? "bg-red-100" : ""}
                 ${isWeekend(date) ? "text-gray-300" : ""}
