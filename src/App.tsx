@@ -12,14 +12,19 @@ function App() {
     end: null,
     weekends: [],
   });
+
+  const handleSelectedDate = (
+    start: Date | null,
+    end: Date | null,
+    weekends: Date[]
+  ) => {
+    setSelectedDates({ start, end, weekends });
+  };
+
   return (
     <>
       <div className="flex items-center justify-center h-full w-full pt-28">
-        <WeekdayDateRangePicker
-          onDateSelect={(start, end, weekends) =>
-            setSelectedDates({ start, end, weekends })
-          }
-        />
+        <WeekdayDateRangePicker onDateSelect={handleSelectedDate} />
       </div>
       <div className="text-center my-10">
         {selectedDates.start?.toDateString()} -{" "}

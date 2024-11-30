@@ -14,6 +14,14 @@ interface PredefinedRangeOption {
   getDates: () => { startDate: Date; endDate: Date };
 }
 
+interface WeekdayDateRangePickerProps {
+  onDateSelect: (
+    start: Date | null,
+    end: Date | null,
+    weekends: Date[]
+  ) => void;
+}
+
 const DEFAULT_PREDEFINED_RANGES: PredefinedRangeOption[] = [
   {
     label: "Last 30 Weekdays",
@@ -54,13 +62,7 @@ const DEFAULT_PREDEFINED_RANGES: PredefinedRangeOption[] = [
   },
 ];
 
-const WeekdayDateRangePicker: React.FC<{
-  onDateSelect: (
-    start: Date | null,
-    end: Date | null,
-    weekends: Date[]
-  ) => void;
-}> = ({ onDateSelect }) => {
+const WeekdayDateRangePicker: React.FC<WeekdayDateRangePickerProps> = ({ onDateSelect }) => {
   const minYear = 2020;
   const maxYear = new Date().getFullYear() + 5;
   const disablePastDates = false;
