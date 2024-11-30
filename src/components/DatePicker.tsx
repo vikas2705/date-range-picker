@@ -15,13 +15,11 @@ const DEFAULT_PREDEFINED_RANGES: PredefinedRangeOption[] = [
   {
     label: "Last 30 Weekdays",
     getDates: () => {
-      const endDate = new Date(); // Today
+      const endDate = new Date();
       const startDate = new Date();
 
-      // Calculate start date going back 30 calendar days
       startDate.setDate(endDate.getDate() - 30);
 
-      // Filter out weekends from the range
       const weekdaysOnly = [];
       const current = new Date(startDate);
 
@@ -32,7 +30,6 @@ const DEFAULT_PREDEFINED_RANGES: PredefinedRangeOption[] = [
         current.setDate(current.getDate() + 1);
       }
 
-      // Return the first and last weekday
       return {
         startDate: weekdaysOnly[0],
         endDate: weekdaysOnly[weekdaysOnly.length - 1],
@@ -112,6 +109,7 @@ const WeekdayDateRangePicker: React.FC<{
       days.push(null);
     }
 
+    console.log(days, "days");
     return days;
   };
 
