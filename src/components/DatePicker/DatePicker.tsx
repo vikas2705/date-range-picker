@@ -27,18 +27,15 @@ const DEFAULT_PREDEFINED_RANGES: PredefinedRangeOption[] = [
     label: "Last 30 Weekdays",
     getDates: () => {
       const endDate = new Date();
-      const startDate = new Date();
+      const weekdaysOnly: Date[] = [];
+      const current = new Date(endDate);
 
-      startDate.setDate(endDate.getDate() - 30);
-
-      const weekdaysOnly = [];
-      const current = new Date(startDate);
-
-      while (current <= endDate) {
+      // Loop to collect the last 30 weekdays
+      while (weekdaysOnly.length < 30) {
         if (!isWeekend(current)) {
-          weekdaysOnly.push(new Date(current));
+          weekdaysOnly.unshift(new Date(current)); // Add to the start of the array
         }
-        current.setDate(current.getDate() + 1);
+        current.setDate(current.getDate() - 1); // Go back one day
       }
 
       return {
@@ -62,7 +59,9 @@ const DEFAULT_PREDEFINED_RANGES: PredefinedRangeOption[] = [
   },
 ];
 
-const WeekdayDateRangePicker: React.FC<WeekdayDateRangePickerProps> = ({ onDateSelect }) => {
+const WeekdayDateRangePicker: React.FC<WeekdayDateRangePickerProps> = ({
+  onDateSelect,
+}) => {
   const minYear = 2020;
   const maxYear = new Date().getFullYear() + 5;
   const disablePastDates = false;
