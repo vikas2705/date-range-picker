@@ -1,3 +1,26 @@
+# Project Description
+
+- Repo Link - https://github.com/vikas2705/date-range-picker
+Steps to follow - 
+
+1. Clone the repo
+2. Run npm i
+3. Run npm run dev
+
+About and Working - 
+
+
+This is a weekdays date range picker. 
+
+- User can select the start and end date and it will always be a weekday. The weekends are disabled as per the requirement.
+- The selected dates are highlighted and the weekend’s number has the disabled number styling and hover effect. 
+- The user can select a year directly by clicking on the year above as per requirement.
+- The user can select a month directly by clicking on the month above as per requirement.
+- The component will show the selected date range at the bottom of date picker as well as on the screen as per the requirement.
+- We have given buttons directly in the datepicker to select the previous 7 weekdays or 30 weekdays instead of passing a prop as we were going to define fixed values anyways but the code can be updated if required. 
+- We are also showing all the weekends dates present in the selected date range as well as per the requirement.
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
